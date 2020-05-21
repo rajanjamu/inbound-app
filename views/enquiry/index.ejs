@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-8 col-md-6 col-lg-5">
+
+            <form action="/enquiry/1" method="GET">
+                <div class="input-group">
+                    <select class="custom-select" name="deptName" id="inputGroupSelect04">
+                        <option selected>Select Department</option>
+                        <option>Sales - Arena</option>
+                        <option>Sales - NEXA</option>
+                        <option>Sales - True Value</option>
+                        <option>Accessories</option>
+                        <option>Insurance</option>
+                        <option>Service - Arena</option>
+                        <option>Service - NEXA</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-secondary" type="submit">Filter</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="list-group">
+                <% enqs.forEach(enq => { %>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><%= enq.prospectName %></h5>
+                            
+                            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                <button type="button" id="editBtn" onclick="window.location.href='/enquiry/<%= enq._id %>/edit'" class="btn btn-outline-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                <form action="/enquiry/<%= enq._id %>?_method=DELETE" method="POST">
+                                    <button type="submit" id="deleteBtn" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <p class="mb-1"><%= enq.remarks %></p>
+                        <div class="row">
+                            <div class="col-3"><small><%= enq.mobileNumber %></small></div>
+                            <div class="col-5 text-center"><small><%= enq.deptName %></small></div>
+                            <div class="col-4 text-right"><small><%= Math.floor((new Date() - enq.createdAt) / 60000) %> mins ago</small></div>
+                        </div>
+                    </a>
+                <% }) %>
+                
+            <div class="d-flex justify-content-between">
+                <a href="/enquiry/<%= parseInt(page) - 1 %>" class="btn btn-outline-secondary <%= (page == 1) ? 'disabled' : '' %>">Previous</a>
+                <small class="my-auto">Page <%= page %></small>
+                <a href="/enquiry/<%= parseInt(page) + 1 %>" class="btn btn-outline-secondary <%= (page == pages) ? 'disabled' : '' %>">Next</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
