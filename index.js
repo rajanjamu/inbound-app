@@ -6,7 +6,8 @@ const methodOverride = require('method-override')
 const app = express()
 
 const enqRoutes = require('./routes/enquiry')
-const Enquiry = require('./models/enquiry')
+const deptRoutes = require('./routes/department')
+const employeeRoutes = require('./routes/employee')
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/inbound_app', {
     useNewUrlParser: true,
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 app.use(enqRoutes)
+app.use(deptRoutes)
+app.use(employeeRoutes)
 
 app.listen(port, () => {
     console.log('App is running at port ' + port)

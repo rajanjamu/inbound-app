@@ -1,0 +1,42 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-8 col-md-6 col-lg-5">
+
+            <form action="/department" method="POST">
+                <div class="form-row align-items-center">
+                  <div class="col-auto">
+                    <label class="sr-only" for="deptName">Name</label>
+                    <input type="text" class="form-control mb-2" name="name" id="deptName" placeholder="Add Department">
+                  </div>
+ 
+                  <div class="col-auto">
+                    <button type="submit" class="btn btn-secondary mb-2">Add</button>
+                  </div>
+                </div>
+            </form>
+            
+            <div class="list-group">
+                <% depts.forEach(dept => { %>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><%= dept.name %></h5>
+                            
+                            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                                <button type="button" id="editBtn" onclick="window.location.href='/department/<%= dept._id %>/edit'" class="btn btn-outline-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                <form action="/department/<%= dept._id %>?_method=DELETE" method="POST">
+                                    <button type="submit" id="deleteBtn" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <p class="mb-1"><%= dept.description %></p>
+                        <small><%= Math.floor((new Date() - dept.createdAt) / 60000) %> mins ago</small>
+                    </a>
+                <% }) %>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

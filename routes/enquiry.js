@@ -1,6 +1,7 @@
 const express   = require('express'),
       router    = express.Router(),
       Enquiry   = require('../models/enquiry'),
+      Department= require('../models/department')
       sendSMS   = require('../utils/sms')
 
 router.get('/', (req, res) => {
@@ -12,8 +13,9 @@ router.get('/enquiry', (req, res) => {
 })
 
 // NEW
-router.get('/enquiry/new', (req, res) => {
-    res.render('enquiry/new')
+router.get('/enquiry/new', async (req, res) => {
+    const depts = await Department.find()
+    res.render('enquiry/new', { depts })
 })
 
 // INDEX
@@ -28,11 +30,12 @@ router.get('/enquiry/:page', async (req, res) => {
 
     try {
         const enqs = await Enquiry.find(filter).limit(perPage).skip(perPage * (page - 1)).sort({ createdAt: -1 })
+        const depts = await Department.find()
 
         const countEnqs = await Enquiry.countDocuments(filter)
         const pages = Math.ceil(countEnqs/perPage)
 
-        res.render('enquiry/index', { enqs, filter, page, pages })
+        res.render('enquiry/index', { enqs, filter, page, pages, depts })
     } catch (e) {
         console.log(e)
     }
@@ -43,7 +46,7 @@ router.post('/enquiry', async (req, res) => {
     try {
         const enq = await Enquiry.create(req.body)
         sendSMS(enq)
-        res.redirect('/')
+        res.redirect('/enquiry')
     } catch (e) {
         console.log(e)
     }

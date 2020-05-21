@@ -8,13 +8,9 @@
                 <div class="input-group">
                     <select class="custom-select" name="deptName" id="inputGroupSelect04">
                         <option selected>Select Department</option>
-                        <option>Sales - Arena</option>
-                        <option>Sales - NEXA</option>
-                        <option>Sales - True Value</option>
-                        <option>Accessories</option>
-                        <option>Insurance</option>
-                        <option>Service - Arena</option>
-                        <option>Service - NEXA</option>
+                        <% depts.forEach(dept => { %>
+                            <option><%= dept.name %></option>
+                        <% }) %>
                     </select>
                     <div class="input-group-append">
                       <button class="btn btn-outline-secondary" type="submit">Filter</button>
