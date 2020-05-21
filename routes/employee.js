@@ -5,9 +5,18 @@ const express       = require('express'),
 
 // INDEX
 router.get('/employee', async (req, res) => {
+    let filter = {}
+
+    if (req.query.deptName && req.query.deptName != 'Select Department') {
+        filter = req.query
+    }
+
+    console.log(req.query)
+
     try {
-        const employees = await Employee.find().sort({ createdAt: -1 })
-        res.render('employee/index', { employees })
+        const employees = await Employee.find(filter).sort({ createdAt: -1 })
+        const depts = await Department.find()
+        res.render('employee/index', { employees, depts })
     } catch (e) {
         console.log(e)
     }

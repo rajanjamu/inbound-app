@@ -4,19 +4,28 @@
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
 
-            <form action="/enquiry/1" method="GET">
-                <div class="input-group">
-                    <select class="custom-select" name="deptName" id="inputGroupSelect04">
-                        <option selected>Select Department</option>
-                        <% depts.forEach(dept => { %>
-                            <option><%= dept.name %></option>
-                        <% }) %>
-                    </select>
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary" type="submit">Filter</button>
-                    </div>
+            <div class="row">
+                <div class="col-4 pr-0">
+                    <a href="/enquiry/new" class="btn btn-secondary">Add Enq</a>
                 </div>
-            </form>
+                <div class="col pl-0">
+                    <form action="/enquiry/1" method="GET">
+                        <div class="input-group">
+                            <select class="custom-select" name="deptName" id="inputGroupSelect04">
+                                <option selected>Select Department</option>
+                                <% depts.forEach(dept => { %>
+                                    <option><%= dept.name %></option>
+                                <% }) %>
+                            </select>
+                            <div class="input-group-append">
+                              <button class="btn btn-secondary" type="submit">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            
 
             <div class="list-group">
                 <% enqs.forEach(enq => { %>
