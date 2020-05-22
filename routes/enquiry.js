@@ -33,7 +33,6 @@ router.get('/enquiry/:page', async (req, res) => {
         filter.channelName = req.query.channelName
     }
 
-    console.log(filter)
     try {
         const enqs = await Enquiry.find(filter).limit(perPage).skip(perPage * (page - 1)).sort({ createdAt: -1 })
         const depts = await Department.find()
