@@ -3,31 +3,31 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
-            <h2 class="mb-3">Departments - Edit</h2>
+            <h2 class="mb-3">Channels - Edit</h2>
 
-            <form action="/department/<%= editDept._id %>?_method=PUT" method="POST" class="input-group">
-                <input type="text" class="form-control" name="name" id="deptName" value="<%= editDept.name %>" placeholder="Add Department" >
+            <form action="/channel/<%= editChnl._id %>?_method=PUT" method="POST" class="input-group">
+                <input type="text" class="form-control" name="name" id="chnlName" value="<%= editChnl.name %>" placeholder="Add Channel" >
                 <div class="input-group-append">
                   <button class="btn btn-secondary" type="submit">Edit</button>
-                  <button class="btn btn-secondary" onclick="window.location.href='/department'">Cancel</button>
+                  <button class="btn btn-secondary" onclick="window.location.href='/channel'">Cancel</button>
                 </div>
             </form>
             
             <div class="list-group">
-                <% depts.forEach(dept => { %>
+                <% channels.forEach(chnl => { %>
                     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1"><%= dept.name %></h5>
+                            <h5 class="mb-1"><%= chnl.name %></h5>
                             
                             <div class="btn-group float-right" role="group" aria-label="Basic example">
-                                <button type="button" id="editBtn" onclick="window.location.href='/department/<%= dept._id %>/edit'" class="btn btn-outline-secondary btn-sm"><i class="fas fa-edit"></i></button>
-                                <form action="/department/<%= dept._id %>?_method=DELETE" method="POST">
+                                <button type="button" id="editBtn" onclick="window.location.href='/department/<%= chnl._id %>/edit'" class="btn btn-outline-secondary btn-sm"><i class="fas fa-edit"></i></button>
+                                <form action="/channel/<%= chnl._id %>?_method=DELETE" method="POST">
                                     <button type="submit" id="deleteBtn" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </div>
                         </div>
-                        <p class="mb-1"><%= dept.description %></p>
-                        <small><%= Math.floor((new Date() - dept.createdAt) / 60000) %> mins ago</small>
+                        <p class="mb-1"><%= chnl.description %></p>
+                        <small><%= Math.floor((new Date() - chnl.createdAt) / 60000) %> mins ago</small>
                     </a>
                 <% }) %>
 

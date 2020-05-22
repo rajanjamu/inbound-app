@@ -14,7 +14,6 @@ router.get('/department', async (req, res) => {
 
 // CREATE
 router.post('/department', async (req, res) => {
-    console.log(req.body)
     try {
         Department.create(req.body)
         res.redirect('/department')
@@ -26,7 +25,7 @@ router.post('/department', async (req, res) => {
 // 5. EDIT
 router.get('/department/:id/edit', async (req, res) => {
     try {
-        const editDept = await Department.findById(req.params.id)
+        const editDept = await Department.findById(req.params.id).sort({ createdAt: -1 })
         const depts = await Department.find()
         res.render('department/edit', { depts, editDept })
     } catch (e) {

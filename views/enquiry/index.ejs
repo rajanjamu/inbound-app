@@ -4,36 +4,38 @@
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
 
-            <div class="row">
-                <div class="col-4 pr-0">
-                    <a href="/enquiry/new" class="btn btn-secondary">Add Enq</a>
-                </div>
-                <div class="col pl-0">
-                    <form action="/enquiry/1" method="GET">
-                        <div class="input-group">
-                            <select class="custom-select" name="deptName" id="inputGroupSelect04">
-                                <option selected>Select Department</option>
-                                <% depts.forEach(dept => { %>
-                                    <option><%= dept.name %></option>
-                                <% }) %>
-                            </select>
-                            <div class="input-group-append">
-                              <button class="btn btn-secondary" type="submit">Filter</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+            <div class="d-flex w-100 mb-3 justify-content-between align-items-center">
+                <h2 class="">Enquiries</h2>
+                <a href="/enquiry/new" class="btn btn-secondary">Add</a>
             </div>
-            
-            
+
+            <form action="/enquiry/1" method="GET">
+                <div class="input-group">
+                    <select class="custom-select" name="channelName" id="channelName">
+                        <option selected>Select Chnl</option>
+                        <% channels.forEach(chnl => { %>
+                            <option <%= filter.channelName == chnl.name ? "selected" : "" %> ><%= chnl.name %></option>
+                        <% }) %>
+                    </select>
+                    <select class="custom-select" name="deptName" id="deptName">
+                        <option selected>Select Dept</option>
+                        <% depts.forEach(dept => { %>
+                            <option <%= filter.deptName == dept.name ? "selected" : "" %> ><%= dept.name %></option>
+                        <% }) %>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">Filter</button>
+                    </div>
+                </div>
+            </form>
 
             <div class="list-group">
                 <% enqs.forEach(enq => { %>
                     <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1"><%= enq.prospectName %></h5>
+                            <h5 class=""><%= enq.prospectName %></h5>
                             
-                            <div class="btn-group float-right" role="group" aria-label="Basic example">
+                            <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="button" id="editBtn" onclick="window.location.href='/enquiry/<%= enq._id %>/edit'" class="btn btn-outline-secondary btn-sm"><i class="fas fa-edit"></i></button>
                                 <form action="/enquiry/<%= enq._id %>?_method=DELETE" method="POST">
                                     <button type="submit" id="deleteBtn" onclick="return confirm('Are you sure you want to delete?')" class="btn btn-outline-secondary btn-sm"><i class="fas fa-trash-alt"></i></button>
@@ -43,13 +45,13 @@
                         <p class="mb-1"><%= enq.remarks %></p>
                         <div class="row">
                             <div class="col-3"><small><%= enq.mobileNumber %></small></div>
-                            <div class="col-5 text-center"><small><%= enq.deptName %></small></div>
+                            <div class="col-5 text-center"><small><%= enq.channelName %> <%= enq.deptName %></small></div>
                             <div class="col-4 text-right"><small><%= Math.floor((new Date() - enq.createdAt) / 60000) %> mins ago</small></div>
                         </div>
                     </a>
                 <% }) %>
                 
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between mt-2">
                 <a href="/enquiry/<%= parseInt(page) - 1 %>" class="btn btn-outline-secondary <%= (page == 1) ? 'disabled' : '' %>">Previous</a>
                 <small class="my-auto">Page <%= page %></small>
                 <a href="/enquiry/<%= parseInt(page) + 1 %>" class="btn btn-outline-secondary <%= (page == pages) ? 'disabled' : '' %>">Next</a>

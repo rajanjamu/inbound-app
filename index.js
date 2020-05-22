@@ -7,7 +7,8 @@ const app = express()
 
 const enqRoutes = require('./routes/enquiry')
 const deptRoutes = require('./routes/department')
-const employeeRoutes = require('./routes/employee')
+const chnlRoutes = require('./routes/channel')
+const emplRoutes = require('./routes/employee')
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/inbound_app', {
     useNewUrlParser: true,
@@ -23,7 +24,8 @@ app.use(methodOverride('_method'))
 
 app.use(enqRoutes)
 app.use(deptRoutes)
-app.use(employeeRoutes)
+app.use(chnlRoutes)
+app.use(emplRoutes)
 
 app.listen(port, () => {
     console.log('App is running at port ' + port)

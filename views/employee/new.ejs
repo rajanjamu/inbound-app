@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
-            <h2 class="mb-3 text-center">New</h2>
+            <h2 class="mb-3">Employee - New</h2>
             <form action="/employee" method="POST">
                 <div class="form-group">
                   <label for="prospectName">Employee Name</label>
@@ -15,8 +15,17 @@
                   <small class="form-text text-muted">Format: 9887216666</small>
                 </div>
                 <div class="form-group">
+                    <label for="chnlName">Channel</label>
+                    <select class="custom-select" name="chnlName" id="chnlName">
+                        <option selected>Select Channel</option>
+                        <% channels.forEach(chnl => { %>
+                            <option><%= chnl.name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="deptName">Department</label>
-                    <select class="custom-select" name="deptName" id="inputGroupSelect04">
+                    <select class="custom-select" name="deptName" id="deptName">
                         <option selected>Select Department</option>
                         <% depts.forEach(dept => { %>
                             <option><%= dept.name %></option>

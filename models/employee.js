@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Department = require('./department')
+const Channel = require('./channel')
 
 const employeeSchema = new mongoose.Schema({
     name: String,
@@ -8,6 +9,13 @@ const employeeSchema = new mongoose.Schema({
         _id: {
             type: mongoose.Schema.Types.ObjectId,
             ref: Department
+        },
+        name: String
+    },
+    channel: {
+        _id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Channel
         },
         name: String
     },

@@ -1,7 +1,8 @@
 const express   = require('express'),
       router    = express.Router(),
       Enquiry   = require('../models/enquiry'),
-      Department= require('../models/department')
+      Department= require('../models/department'),
+      Channel   = require('../models/channel'),
       sendSMS   = require('../utils/sms')
 
 router.get('/', (req, res) => {
@@ -15,7 +16,8 @@ router.get('/enquiry', (req, res) => {
 // NEW
 router.get('/enquiry/new', async (req, res) => {
     const depts = await Department.find()
-    res.render('enquiry/new', { depts })
+    const channels = await Channel.find()
+    res.render('enquiry/new', { depts, channels })
 })
 
 // INDEX
@@ -24,18 +26,23 @@ router.get('/enquiry/:page', async (req, res) => {
     const perPage = 5
     const page = req.params.page || 1
 
-    if (req.query.deptName && req.query.deptName != 'Select Department') {
-        filter = req.query
+    if (req.query.deptName && req.query.deptName != 'Select Dept') {
+        filter.deptName = req.query.deptName
+    }
+    if (req.query.channelName && req.query.channelName != 'Select Chnl') {
+        filter.channelName = req.query.channelName
     }
 
+    console.log(filter)
     try {
         const enqs = await Enquiry.find(filter).limit(perPage).skip(perPage * (page - 1)).sort({ createdAt: -1 })
         const depts = await Department.find()
+        const channels = await Channel.find()
 
         const countEnqs = await Enquiry.countDocuments(filter)
         const pages = Math.ceil(countEnqs/perPage)
 
-        res.render('enquiry/index', { enqs, filter, page, pages, depts })
+        res.render('enquiry/index', { enqs, filter, page, pages, depts, channels })
     } catch (e) {
         console.log(e)
     }
@@ -56,7 +63,9 @@ router.post('/enquiry', async (req, res) => {
 router.get('/enquiry/:id/edit', async (req, res) => {
     try {
         const enq = await Enquiry.findById(req.params.id)
-        res.render('enquiry/edit', { enq })
+        const depts = await Department.find()
+        const channels = await Channel.find()
+        res.render('enquiry/edit', { enq, depts, channels })
     } catch (e) {
         console.log(e)
     }
