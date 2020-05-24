@@ -72,7 +72,7 @@ router.post('/enquiry', async (req, res) => {
         }
         
         req.flash('success', `New enquiry - ${enq.prospectName} - created!`)
-        res.redirect('/enquiry')
+        res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)
     }
@@ -108,7 +108,7 @@ router.put('/enquiry/:id', async (req, res) => {
         }
 
         req.flash('success', `Employee - ${enq.prospectName} - updated!`)
-        res.redirect('/')
+        res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)
     }
@@ -119,7 +119,7 @@ router.delete('/enquiry/:id', async (req, res) => {
     try {
         const enq = await Enquiry.findByIdAndRemove(req.params.id)
         req.flash('success', `Enquiry - ${enq.prospectName} - deleted!`)
-        res.redirect('/')
+        res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)
     }
