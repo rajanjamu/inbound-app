@@ -1,11 +1,14 @@
 const express       = require('express'),
       router        = express.Router(),
-      Department    = require('../models/department')
+      Department    = require('../models/department'),
+      { timeAgo }   = require('../utils/helper')
 
 // INDEX
 router.get('/department', async (req, res) => {
     try {
-        const depts = await Department.find().sort({ createdAt: -1 })
+        const depts = await Department.find().sort({ createdAt: -1 }).lean()
+        depts.forEach(dept => dept.timeAgo = timeAgo(dept.updatedAt))
+
         res.render('department/index', { depts })
     } catch (e) {
         console.log(e)
@@ -25,8 +28,13 @@ router.post('/department', async (req, res) => {
 // 5. EDIT
 router.get('/department/:id/edit', async (req, res) => {
     try {
-        const editDept = await Department.findById(req.params.id).sort({ createdAt: -1 })
+        console.log(req.params.id)
+        const editDept = await Department
+                        .findById(req.params.id)
+                        .sort({ updatedAt: -1 })
+
         const depts = await Department.find()
+        
         res.render('department/edit', { depts, editDept })
     } catch (e) {
         console.log(e)

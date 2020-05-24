@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <p class="mb-1"><%= dept.description %></p>
-                        <small><%= Math.floor((new Date() - dept.createdAt) / 60000) %> mins ago</small>
+                        <small><%= Math.floor((new Date() - dept.updatedAt) / 60000) %> mins ago</small>
                     </a>
                 <% }) %>
 

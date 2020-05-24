@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
-            <h2 class="mb-3">Departments</h2>
+            <h2 class="mb-3"><a href="/department" class="text-reset text-decoration-none">Departments</a></h2>
 
             <form action="/department" method="POST" class="input-group">
                 <input type="text" class="form-control" name="name" id="deptName" placeholder="Add Department" >
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <p class="mb-1"><%= dept.description %></p>
-                        <small><%= Math.floor((new Date() - dept.createdAt) / 60000) %> mins ago</small>
+                        <small><%= dept.timeAgo %></small>
                     </a>
                 <% }) %>
 

@@ -1,11 +1,18 @@
 const express       = require('express'),
       router        = express.Router(),
-      Channel    = require('../models/channel')
+      Channel       = require('../models/channel'),
+      { timeAgo }   = require('../utils/helper')
 
 // INDEX
 router.get('/channel', async (req, res) => {
     try {
-        const channels = await Channel.find().sort({ createdAt: -1 })
+        const channels = await Channel
+                        .find()
+                        .sort({ updatedAt: -1 })
+                        .lean()
+
+        channels.forEach(chnl => chnl.timeAgo = timeAgo(chnl.updatedAt))
+
         res.render('channel/index', { channels })
     } catch (e) {
         console.log(e)

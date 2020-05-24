@@ -2,20 +2,34 @@ const express       = require('express'),
       router        = express.Router(),
       Employee      = require('../models/employee'),
       Department    = require('../models/department'),
-      Channel    = require('../models/channel')
+      Channel       = require('../models/channel'),
+      { timeAgo }   = require('../utils/helper')
 
 // INDEX
 router.get('/employee', async (req, res) => {
     let filter = {}
+    const { channel, department } = req.query
 
-    if (req.query.deptName && req.query.deptName != 'Select Department') {
-        filter = req.query
+    if (channel && channel.name != 'Select Chnl') {
+        filter['channel.name'] = channel.name
+    }
+    if (department && department.name != 'Select Dept') {
+        filter['department.name'] = department.name
     }
 
     try {
-        const employees = await Employee.find(filter).sort({ createdAt: -1 })
+        const employees = await Employee
+                            .find(filter)
+                            .sort({ updatedAt: -1 })
+                            .lean()
+        
+        employees.forEach(emp => emp.timeAgo = timeAgo(emp.updatedAt))
+        console.log(employees)
+
+        const channels = await Channel.find()
         const depts = await Department.find()
-        res.render('employee/index', { employees, depts })
+
+        res.render('employee/index', { employees, channels, depts, filter })
     } catch (e) {
         console.log(e)
     }

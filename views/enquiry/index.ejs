@@ -5,7 +5,7 @@
         <div class="col-sm-8 col-md-6 col-lg-5">
 
             <div class="d-flex w-100 mb-3 justify-content-between align-items-center">
-                <h2 class="">Enquiries</h2>
+                <h2><a href="/enquiry" class="text-reset text-decoration-none">Enquiries</a></h2>
                 <a href="/enquiry/new" class="btn btn-secondary">Add</a>
             </div>
 
@@ -46,7 +46,7 @@
                         <div class="row">
                             <div class="col-3"><small><%= enq.mobileNumber %></small></div>
                             <div class="col-5 text-center"><small><%= enq.channelName %> <%= enq.deptName %></small></div>
-                            <div class="col-4 text-right"><small><%= Math.floor((new Date() - enq.createdAt) / 60000) %> mins ago</small></div>
+                            <div class="col-4 text-right"><small><%= enq.timeAgo %></small></div>
                         </div>
                     </a>
                 <% }) %>

@@ -5,16 +5,22 @@
         <div class="col-sm-8 col-md-6 col-lg-5">
 
             <div class="d-flex w-100 mb-3 justify-content-between align-items-center">
-                <h2 class="">Employees</h2>
+                <h2><a href="/employee" class="text-reset text-decoration-none">Employees</a></h2>
                 <a href="/employee/new" class="btn btn-secondary">Add</a>
             </div>
  
             <form action="/employee" method="GET">
                 <div class="input-group">
-                    <select class="custom-select" name="department[name]" id="inputGroupSelect04">
-                        <option selected>Select Department</option>
+                    <select class="custom-select" name="channel[name]" id="channelName">
+                        <option selected>Select Chnl</option>
+                        <% channels.forEach(chnl => { %>
+                            <option  <%= filter['channel.name'] == chnl.name ? "selected" : "" %> ><%= chnl.name %></option>
+                        <% }) %>
+                    </select>
+                    <select class="custom-select" name="department[name]" id="deptName">
+                        <option selected>Select Dept</option>
                         <% depts.forEach(dept => { %>
-                            <option><%= dept.name %></option>
+                            <option  <%= filter['department.name'] == dept.name ? "selected" : "" %> ><%= dept.name %></option>
                         <% }) %>
                     </select>
                     <div class="input-group-append">
@@ -40,7 +46,7 @@
                         <div class="row">
                             <div class="col-3"><small><%= employee.mobileNumber %></small></div>
                             <div class="col-5 text-center"><small><%= employee.channel.name %> <%= employee.department.name %></small></div>
-                            <div class="col-4 text-right"><small><%= Math.floor((new Date() - employee.createdAt) / 60000) %> mins ago</small></div>
+                            <div class="col-4 text-right"><small><%= employee.timeAgo %></small></div>
                         </div>
                     </a>
                 <% }) %>

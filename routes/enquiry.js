@@ -3,7 +3,8 @@ const express   = require('express'),
       Enquiry   = require('../models/enquiry'),
       Department= require('../models/department'),
       Channel   = require('../models/channel'),
-      sendSMS   = require('../utils/sms')
+      sendSMS   = require('../utils/sms'),
+      { timeAgo } = require('../utils/helper')
 
 router.get('/', (req, res) => {
     res.redirect('/enquiry/1')
@@ -34,7 +35,15 @@ router.get('/enquiry/:page', async (req, res) => {
     }
 
     try {
-        const enqs = await Enquiry.find(filter).limit(perPage).skip(perPage * (page - 1)).sort({ createdAt: -1 })
+        let enqs = await Enquiry
+                        .find(filter)
+                        .limit(perPage)
+                        .skip(perPage * (page - 1))
+                        .sort({ updatedAt: -1 })
+                        .lean()
+        
+        enqs.forEach(enq => enq.timeAgo = timeAgo(enq.updatedAt))
+                        
         const depts = await Department.find()
         const channels = await Channel.find()
 
@@ -90,8 +99,6 @@ router.delete('/enquiry/:id', async (req, res) => {
     }
 })
 
-function timeAgo(dateArr) {
 
-}
 
 module.exports = router
