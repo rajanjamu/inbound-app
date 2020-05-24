@@ -62,7 +62,7 @@ router.get('/enquiry/:page', async (req, res) => {
 router.post('/enquiry', async (req, res) => {
     try {
         const enq = await Enquiry.create(req.body)
-        sendSMS(enq)
+        //sendSMS(enq)
         res.redirect('/enquiry')
     } catch (e) {
         console.log(e)

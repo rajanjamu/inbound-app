@@ -7,11 +7,13 @@ const employeeSchema = new mongoose.Schema({
     mobileNumber: String,
     department: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Department
+        ref: Department,
+        required: true
     },
     channel: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: Channel
+        ref: Channel,
+        required: true
     },
     smsStatus: Boolean
 }, {

@@ -1,6 +1,8 @@
 const express       = require('express'),
       router        = express.Router(),
       Channel       = require('../models/channel'),
+      Employee      = require('../models/employee'),
+      Enquiry       = require('../models/enquiry'),
       { timeAgo }   = require('../utils/helper')
 
 // INDEX
@@ -53,7 +55,14 @@ router.put('/channel/:id', async (req, res) => {
 // DELETE
 router.delete('/channel/:id', async (req, res) => {
     try {
-        await Channel.findByIdAndRemove(req.params.id)
+        const employee = await Employee.find({ channel: req.params.id })
+        const enquiry = await Enquiry.find({ channel: req.params.id })
+
+        if (!employee && !enquiry) {
+            await Channel.findByIdAndRemove(req.params.id)
+        }
+        console.log('Cannot be deleted. Other documents references this channel.')
+        
         res.redirect('/channel')
     } catch (e) {
         console.log(e)

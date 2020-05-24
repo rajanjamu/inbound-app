@@ -1,6 +1,8 @@
 const express       = require('express'),
       router        = express.Router(),
       Department    = require('../models/department'),
+      Employee      = require('../models/employee'),
+      Enquiry       = require('../models/enquiry'),
       { timeAgo }   = require('../utils/helper')
 
 // INDEX
@@ -54,7 +56,14 @@ router.put('/department/:id', async (req, res) => {
 // DELETE
 router.delete('/department/:id', async (req, res) => {
     try {
-        await Department.findByIdAndRemove(req.params.id)
+        const employee = await Employee.find({ department: req.params.id })
+        const enquiry = await Enquiry.find({ department: req.params.id })
+
+        if (!employee && !enquiry) {
+            await Department.findByIdAndRemove(req.params.id)
+        }
+        console.log('Cannot be deleted. Other documents references this department.')
+        
         res.redirect('/department')
     } catch (e) {
         console.log(e)
