@@ -46,15 +46,14 @@ router.get('/employee/new', async (req, res) => {
 // CREATE
 router.post('/employee', async (req, res) => {  
     try {
-        const dept = await Department.findOne({ name: req.body.deptName })
-        const chnl = await Channel.findOne({ name: req.body.chnlName })
+        console.log(req.body.deptName)
+        // const dept = await Department.findById(req.body.deptId)
+        // const chnl = await Channel.findOne(req.body.chnlId)
         const employee = new Employee({
             name: req.body.name,
             mobileNumber: req.body.mobileNumber,
-            department: dept._id,
-            //'department.name': dept.name,
-            channel: chnl._id,
-            //'channel.name': chnl.name
+            department: req.body.deptId,
+            channel: req.body.chnlId
         })
         employee.save()
         res.redirect('/employee')

@@ -15,8 +15,8 @@
                   <small class="form-text text-muted">Format: 9887216666</small>
                 </div>
                 <div class="form-group">
-                    <label for="chnlName">Channel</label>
-                    <select class="custom-select" name="chnlName" id="chnlName" required>
+                    <label for="chnlId">Channel</label>
+                    <select class="custom-select" name="chnlId" id="chnlId" required>
                         <option value="" hidden selected>Select Channel</option>
                         <% channels.forEach(chnl => { %>
                             <option value="<%= chnl._id %>"><%= chnl.name %></option>
@@ -24,8 +24,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="deptName">Department</label>
-                    <select class="custom-select" name="deptName" id="deptName" required>
+                    <label for="deptId">Department</label>
+                    <select class="custom-select" name="deptId" id="deptId" required>
                         <option value="" hidden selected>Select Department</option>
                         <% depts.forEach(dept => { %>
                             <option value="<%= dept._id %>"><%= dept.name %></option>
