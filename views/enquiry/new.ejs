@@ -15,8 +15,8 @@
                   <small class="form-text text-muted">Format: 9887216666</small>
                 </div>
                 <div class="form-group">
-                    <label for="channelName">Channel</label>
-                    <select class="custom-select" name="channel" id="channelName" required>
+                    <label for="channel">Channel</label>
+                    <select class="custom-select" name="channel" id="channel" required>
                         <option value=""" hidden selected>Select Channel</option>
                         <% channels.forEach(chnl => { %>
                             <option value="<%= chnl._id %>"><%= chnl.name %></option>
@@ -24,8 +24,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="deptName">Department</label>
-                    <select class="custom-select" name="department" id="deptName" required>
+                    <label for="department">Department</label>
+                    <select class="custom-select" name="department" id="department" required>
                         <option value="" hidden selected>Select Department</option>
                         <% depts.forEach(dept => { %>
                             <option value="<%= dept._id %>"><%= dept.name %></option>
@@ -35,7 +35,11 @@
                 <div class="form-group">
                     <label for="remarks">Remarks</label>
                     <textarea class="form-control" name="remarks" id="remarks" rows="2"></textarea>
-                  </div>
+                </div>
+                <div class="form-check mb-2">
+                    <input type="checkbox" class="form-check-input" name="isSendSMS" id="isSendSMS">
+                    <label class="form-check-label" for="isSendSMS">Send SMS Notification</label>
+                </div>
                 <button type="submit" class="btn btn-secondary">Submit</button>
                 <a href="/" class="btn btn-secondary">Cancel</a>
             </form>

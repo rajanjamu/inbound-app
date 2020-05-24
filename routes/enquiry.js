@@ -61,8 +61,15 @@ router.get('/enquiry/:page', async (req, res) => {
 // CREATE
 router.post('/enquiry', async (req, res) => {
     try {
-        const enq = await Enquiry.create(req.body)
-        //sendSMS(enq)
+        let enq = await Enquiry.create(req.body)
+        enq = await enq.populate('channel', 'name')
+                       .populate('department', 'name')
+                       .execPopulate()
+
+        if (req.body.isSendSMS) {
+            sendSMS(enq)
+        }
+        
         req.flash('success', `New enquiry - ${enq.prospectName} - created!`)
         res.redirect('/enquiry')
     } catch (e) {
@@ -74,8 +81,10 @@ router.post('/enquiry', async (req, res) => {
 router.get('/enquiry/:id/edit', async (req, res) => {
     try {
         const enq = await Enquiry.findById(req.params.id)
+
         const depts = await Department.find()
         const channels = await Channel.find()
+
         res.render('enquiry/edit', { enq, depts, channels })
     } catch (e) {
         console.log(e)
@@ -85,7 +94,15 @@ router.get('/enquiry/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/enquiry/:id', async (req, res) => {
     try {
-        const enq = await Enquiry.findByIdAndUpdate(req.params.id, req.body)
+        let enq = await Enquiry.findByIdAndUpdate(req.params.id, req.body)
+        enq = await enq.populate('channel', 'name')
+                       .populate('department', 'name')
+                       .execPopulate()
+
+        if (req.body.isSendSMS) {
+            sendSMS(enq)
+        }
+
         req.flash('success', `Employee - ${enq.prospectName} - updated!`)
         res.redirect('/')
     } catch (e) {

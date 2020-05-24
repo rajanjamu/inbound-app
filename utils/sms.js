@@ -16,20 +16,19 @@ const sendSMS = async (enq) => {
 }
 
 async function getUrl(enq) {
-    const numbers = await getNumbers(enq.channelName, enq.deptName)
+    const numbers = await getNumbers(enq.channel._id, enq.department._id)
     return `https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=${apiKey}&senderid=${senderId}&channel=${channel}&DCS=0&flashsms=0&number=${numbers}&text=${smsText(enq)}&route=${route}`
 }
 
-function smsText({ prospectName, mobileNumber, channelName, deptName, remarks }) {
-    return `Enquiry: ${channelName} - ${deptName}\nMr./Ms. ${prospectName}\n${mobileNumber}\n${remarks}`
+function smsText({ prospectName, mobileNumber, channel, department, remarks }) {
+    return `Enquiry: ${channel.name} - ${department.name}\nMr./Ms. ${prospectName}\n${mobileNumber}\n${remarks}`
 }
 
-async function getNumbers(channelName, deptName) {
+async function getNumbers(channel, department) {
     try {
-        const numbersObj = await Employee.find({
-            'department.name': deptName,
-            'channel.name': channelName
-        }).select('mobileNumber -_id')
+        const numbersObj = await Employee
+                            .find({ channel, department })
+                            .select('mobileNumber -_id')
     
         if (numbersObj) {
             return numbersObj.map(x => x.mobileNumber).join()
