@@ -6,10 +6,6 @@ const express   = require('express'),
       sendSMS   = require('../utils/sms'),
       { timeAgo } = require('../utils/helper')
 
-router.get('/', (req, res) => {
-    res.redirect('/enquiry/1')
-})
-
 router.get('/enquiry', (req, res) => {
     res.redirect('/enquiry/1')
 })
@@ -124,7 +120,5 @@ router.delete('/enquiry/:id', async (req, res) => {
         console.log(e)
     }
 })
-
-
 
 module.exports = router

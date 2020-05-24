@@ -8,6 +8,7 @@ const session           = require('express-session')
 const app               = express()
 
 // ROUTES
+const indexRoutes = require('./routes/index')
 const enqRoutes = require('./routes/enquiry')
 const deptRoutes = require('./routes/department')
 const chnlRoutes = require('./routes/channel')
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 })
 
 // ROUTES DECLARATION
+app.use(indexRoutes)
 app.use(enqRoutes)
 app.use(deptRoutes)
 app.use(chnlRoutes)
