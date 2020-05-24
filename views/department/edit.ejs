@@ -3,10 +3,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
-            <h2 class="mb-3">Departments - Edit</h2>
+            <h2 class="mb-3">Department - Edit</h2>
 
             <form action="/department/<%= editDept._id %>?_method=PUT" method="POST" class="input-group">
-                <input type="text" class="form-control" name="name" id="deptName" value="<%= editDept.name %>" placeholder="Add Department" >
+                <input type="text" class="form-control" name="name" id="deptName" value="<%= editDept.name %>" placeholder="Add Department" required>
                 <div class="input-group-append">
                   <button class="btn btn-secondary" type="submit">Edit</button>
                   <button class="btn btn-secondary" onclick="window.location.href='/department'">Cancel</button>

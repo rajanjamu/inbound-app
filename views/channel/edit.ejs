@@ -6,7 +6,7 @@
             <h2 class="mb-3">Channels - Edit</h2>
 
             <form action="/channel/<%= editChnl._id %>?_method=PUT" method="POST" class="input-group">
-                <input type="text" class="form-control" name="name" id="chnlName" value="<%= editChnl.name %>" placeholder="Add Channel" >
+                <input type="text" class="form-control" name="name" id="chnlName" value="<%= editChnl.name %>" placeholder="Add Channel" required>
                 <div class="input-group-append">
                   <button class="btn btn-secondary" type="submit">Edit</button>
                   <button class="btn btn-secondary" onclick="window.location.href='/channel'">Cancel</button>

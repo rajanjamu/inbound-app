@@ -20,11 +20,12 @@ router.get('/employee', async (req, res) => {
     try {
         const employees = await Employee
                             .find(filter)
+                            .populate('channel')
+                            .populate('department')
                             .sort({ updatedAt: -1 })
                             .lean()
         
         employees.forEach(emp => emp.timeAgo = timeAgo(emp.updatedAt))
-        console.log(employees)
 
         const channels = await Channel.find()
         const depts = await Department.find()
@@ -50,10 +51,10 @@ router.post('/employee', async (req, res) => {
         const employee = new Employee({
             name: req.body.name,
             mobileNumber: req.body.mobileNumber,
-            'department._id': dept._id,
-            'department.name': dept.name,
-            'channel._id': chnl._id,
-            'channel.name': chnl.name
+            department: dept._id,
+            //'department.name': dept.name,
+            channel: chnl._id,
+            //'channel.name': chnl.name
         })
         employee.save()
         res.redirect('/employee')

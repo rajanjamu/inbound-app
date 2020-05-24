@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-8 col-md-6 col-lg-5">
-            <h2 class="mb-3 text-center">Edit</h2>
+            <h2 class="mb-3">Enquiry - Edit</h2>
             <form action="/enquiry/<%= enq._id %>?_method=PUT" method="POST">
                 <div class="form-group">
                   <label for="prospectName">Customer Name</label>
@@ -34,7 +34,7 @@
                     <label for="remarks">Remarks</label>
                     <textarea class="form-control" name="remarks" id="remarks" rows="2"><%= enq.remarks %></textarea>
                   </div>
-                <button type="submit" class="btn btn-secondary">Submit</button>
+                <button type="submit" class="btn btn-secondary">Edit</button>
                 <a href="/" class="btn btn-secondary">Cancel</a>
             </form>
         </div>

@@ -16,19 +16,19 @@
                 </div>
                 <div class="form-group">
                     <label for="chnlName">Channel</label>
-                    <select class="custom-select" name="chnlName" id="chnlName">
-                        <option selected>Select Channel</option>
+                    <select class="custom-select" name="chnlName" id="chnlName" required>
+                        <option value="" hidden selected>Select Channel</option>
                         <% channels.forEach(chnl => { %>
-                            <option><%= chnl.name %></option>
+                            <option value="<%= chnl._id %>"><%= chnl.name %></option>
                         <% }) %>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="deptName">Department</label>
-                    <select class="custom-select" name="deptName" id="deptName">
-                        <option selected>Select Department</option>
+                    <select class="custom-select" name="deptName" id="deptName" required>
+                        <option value="" hidden selected>Select Department</option>
                         <% depts.forEach(dept => { %>
-                            <option><%= dept.name %></option>
+                            <option value="<%= dept._id %>"><%= dept.name %></option>
                         <% }) %>
                     </select>
                 </div>

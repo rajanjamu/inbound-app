@@ -37,6 +37,8 @@ router.get('/enquiry/:page', async (req, res) => {
     try {
         let enqs = await Enquiry
                         .find(filter)
+                        .populate('channel')
+                        .populate('department')
                         .limit(perPage)
                         .skip(perPage * (page - 1))
                         .sort({ updatedAt: -1 })

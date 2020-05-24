@@ -6,18 +6,12 @@ const employeeSchema = new mongoose.Schema({
     name: String,
     mobileNumber: String,
     department: {
-        _id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Department
-        },
-        name: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Department
     },
     channel: {
-        _id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: Channel
-        },
-        name: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Channel
     },
     smsStatus: Boolean
 }, {
