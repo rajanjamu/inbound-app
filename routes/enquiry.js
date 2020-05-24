@@ -24,14 +24,15 @@ router.get('/enquiry/new', async (req, res) => {
 // INDEX
 router.get('/enquiry/:page', async (req, res) => {
     let filter = {}
+    const { channel, department } = req.query
     const perPage = 5
     const page = req.params.page || 1
 
-    if (req.query.deptName && req.query.deptName != 'Select Dept') {
-        filter.deptName = req.query.deptName
+    if (channel && channel != 'Select Chnl') {
+        filter.channel = channel
     }
-    if (req.query.channelName && req.query.channelName != 'Select Chnl') {
-        filter.channelName = req.query.channelName
+    if (department && department != 'Select Dept') {
+        filter.department = department
     }
 
     try {
@@ -80,7 +81,10 @@ router.post('/enquiry', async (req, res) => {
 // 5. EDIT
 router.get('/enquiry/:id/edit', async (req, res) => {
     try {
-        const enq = await Enquiry.findById(req.params.id)
+        let enq = await Enquiry.findById(req.params.id)
+        enq = await enq.populate('channel', 'name')
+                        .populate('department', 'name')
+                        .execPopulate()
 
         const depts = await Department.find()
         const channels = await Channel.find()
@@ -94,7 +98,7 @@ router.get('/enquiry/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/enquiry/:id', async (req, res) => {
     try {
-        let enq = await Enquiry.findByIdAndUpdate(req.params.id, req.body)
+        let enq = await Enquiry.findByIdAndUpdate(req.params.id, req.body, { new: true })
         enq = await enq.populate('channel', 'name')
                        .populate('department', 'name')
                        .execPopulate()

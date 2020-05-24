@@ -47,7 +47,7 @@ router.get('/department/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/department/:id', async (req, res) => {
     try {
-        const dept = await Department.findByIdAndUpdate(req.params.id, req.body)
+        const dept = await Department.findByIdAndUpdate(req.params.id, req.body, { new: true })
         req.flash('success', `Department - ${dept.name} - updated!`)
         res.redirect('/department')
     } catch (e) {

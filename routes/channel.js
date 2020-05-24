@@ -46,7 +46,7 @@ router.get('/channel/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/channel/:id', async (req, res) => {
     try {
-        const channel = await Channel.findByIdAndUpdate(req.params.id, req.body)
+        const channel = await Channel.findByIdAndUpdate(req.params.id, req.body, { new: true })
         req.flash('success', `Channel - ${channel.name} - updated!`)
         res.redirect('/channel')
     } catch (e) {

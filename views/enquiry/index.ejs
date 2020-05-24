@@ -11,16 +11,16 @@
 
             <form action="/enquiry/1" method="GET">
                 <div class="input-group">
-                    <select class="custom-select" name="channelName" id="channelName">
+                    <select class="custom-select" name="channel" id="channel">
                         <option selected>Select Chnl</option>
                         <% channels.forEach(chnl => { %>
-                            <option <%= filter.channelName == chnl.name ? "selected" : "" %> ><%= chnl.name %></option>
+                            <option value="<%= chnl._id %>" <%= filter.channel == chnl._id ? "selected" : "" %> ><%= chnl.name %></option>
                         <% }) %>
                     </select>
-                    <select class="custom-select" name="deptName" id="deptName">
+                    <select class="custom-select" name="department" id="department">
                         <option selected>Select Dept</option>
                         <% depts.forEach(dept => { %>
-                            <option <%= filter.deptName == dept.name ? "selected" : "" %> ><%= dept.name %></option>
+                            <option value="<%= dept._id %>" <%= filter.department == dept._id ? "selected" : "" %> ><%= dept.name %></option>
                         <% }) %>
                     </select>
                     <div class="input-group-append">

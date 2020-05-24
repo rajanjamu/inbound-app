@@ -15,7 +15,7 @@ const employeeSchema = new mongoose.Schema({
         ref: Channel,
         required: true
     },
-    smsStatus: Boolean
+    isSendSMS: Boolean
 }, {
     timestamps: true
 })

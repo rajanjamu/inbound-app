@@ -17,11 +17,11 @@ router.get('/employee', async (req, res) => {
     let filter = {}
     const { channel, department } = req.query
 
-    if (channel && channel.name != 'Select Chnl') {
-        filter['channel.name'] = channel.name
+    if (channel && channel != 'Select Chnl') {
+        filter.channel = channel
     }
-    if (department && department.name != 'Select Dept') {
-        filter['department.name'] = department.name
+    if (department && department != 'Select Dept') {
+        filter.department = department
     }
 
     try {
@@ -50,7 +50,8 @@ router.post('/employee', async (req, res) => {
             name: req.body.name,
             mobileNumber: req.body.mobileNumber,
             department: req.body.deptId,
-            channel: req.body.chnlId
+            channel: req.body.chnlId,
+            isSendSMS: req.body.isSendSMS ? true : false
         })
         employee.save()
         req.flash('success', `New employee - ${employee.name} - created!`)
@@ -63,9 +64,14 @@ router.post('/employee', async (req, res) => {
 // 5. EDIT
 router.get('/employee/:id/edit', async (req, res) => {
     try {
-        const employee = await Employee.findById(req.params.id)
+        let employee = await Employee.findById(req.params.id)
+        employee = await employee.populate('channel', 'name')
+                        .populate('department', 'name')
+                        .execPopulate()
+
         const depts = await Department.find()
         const channels = await Channel.find()
+        console.log(employee)
         res.render('employee/edit', { employee, depts, channels })
     } catch (e) {
         console.log(e)
@@ -75,7 +81,8 @@ router.get('/employee/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/employee/:id', async (req, res) => {
     try {
-        const employee = await Employee.findByIdAndUpdate(req.params.id, req.body)
+        req.body.isSendSMS = (req.body.isSendSMS ? true : false)
+        const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true })
         req.flash('success', `Employee - ${employee.name} - updated!`)
         res.redirect('/employee')
     } catch (e) {

@@ -27,7 +27,7 @@ function smsText({ prospectName, mobileNumber, channel, department, remarks }) {
 async function getNumbers(channel, department) {
     try {
         const numbersObj = await Employee
-                            .find({ channel, department })
+                            .find({ channel, department, isSendSMS: true })
                             .select('mobileNumber -_id')
     
         if (numbersObj) {
