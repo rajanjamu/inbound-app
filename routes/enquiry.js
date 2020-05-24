@@ -63,6 +63,7 @@ router.post('/enquiry', async (req, res) => {
     try {
         const enq = await Enquiry.create(req.body)
         //sendSMS(enq)
+        req.flash('success', `New enquiry - ${enq.prospectName} - created!`)
         res.redirect('/enquiry')
     } catch (e) {
         console.log(e)
@@ -85,6 +86,7 @@ router.get('/enquiry/:id/edit', async (req, res) => {
 router.put('/enquiry/:id', async (req, res) => {
     try {
         const enq = await Enquiry.findByIdAndUpdate(req.params.id, req.body)
+        req.flash('success', `Employee - ${enq.prospectName} - updated!`)
         res.redirect('/')
     } catch (e) {
         console.log(e)
@@ -94,7 +96,8 @@ router.put('/enquiry/:id', async (req, res) => {
 // DELETE
 router.delete('/enquiry/:id', async (req, res) => {
     try {
-        await Enquiry.findByIdAndRemove(req.params.id)
+        const enq = await Enquiry.findByIdAndRemove(req.params.id)
+        req.flash('success', `Enquiry - ${enq.prospectName} - deleted!`)
         res.redirect('/')
     } catch (e) {
         console.log(e)

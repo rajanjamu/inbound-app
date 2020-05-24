@@ -8,11 +8,7 @@ const express       = require('express'),
 // INDEX
 router.get('/channel', async (req, res) => {
     try {
-        const channels = await Channel
-                        .find()
-                        .sort({ updatedAt: -1 })
-                        .lean()
-
+        const channels = await Channel.find().sort({ updatedAt: -1 }).lean()
         channels.forEach(chnl => chnl.timeAgo = timeAgo(chnl.updatedAt))
 
         res.render('channel/index', { channels })
@@ -24,7 +20,8 @@ router.get('/channel', async (req, res) => {
 // CREATE
 router.post('/channel', async (req, res) => {
     try {
-        Channel.create(req.body)
+        const channel = await Channel.create(req.body)
+        req.flash('success', `New channel - ${channel.name} - created!`)
         res.redirect('/channel')
     } catch (e) {
         console.log(e)
@@ -34,8 +31,12 @@ router.post('/channel', async (req, res) => {
 // 5. EDIT
 router.get('/channel/:id/edit', async (req, res) => {
     try {
-        const editChnl = await Channel.findById(req.params.id).sort({ createdAt: -1 })
+        const editChnl = await Channel
+                            .findById(req.params.id)
+                            .sort({ createdAt: -1 })
+
         const channels = await Channel.find()
+
         res.render('channel/edit', { channels, editChnl })
     } catch (e) {
         console.log(e)
@@ -45,7 +46,8 @@ router.get('/channel/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/channel/:id', async (req, res) => {
     try {
-        const dept = await Channel.findByIdAndUpdate(req.params.id, req.body)
+        const channel = await Channel.findByIdAndUpdate(req.params.id, req.body)
+        req.flash('success', `Channel - ${channel.name} - updated!`)
         res.redirect('/channel')
     } catch (e) {
         console.log(e)
@@ -58,10 +60,13 @@ router.delete('/channel/:id', async (req, res) => {
         const employee = await Employee.find({ channel: req.params.id })
         const enquiry = await Enquiry.find({ channel: req.params.id })
 
-        if (!employee && !enquiry) {
-            await Channel.findByIdAndRemove(req.params.id)
+
+        if (!employee.length && !enquiry.length) {
+            const channel = await Channel.findByIdAndRemove(req.params.id)
+            req.flash('success', `Channel - ${channel.name} - deleted!`)
+        } else {
+            req.flash('error', 'Cannot delete. Channel is being used!')
         }
-        console.log('Cannot be deleted. Other documents references this channel.')
         
         res.redirect('/channel')
     } catch (e) {

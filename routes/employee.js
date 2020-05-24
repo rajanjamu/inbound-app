@@ -5,6 +5,13 @@ const express       = require('express'),
       Channel       = require('../models/channel'),
       { timeAgo }   = require('../utils/helper')
 
+// NEW
+router.get('/employee/new', async (req, res) => {
+    const depts = await Department.find()
+    const channels = await Channel.find()
+    res.render('employee/new', { depts, channels })
+})
+
 // INDEX
 router.get('/employee', async (req, res) => {
     let filter = {}
@@ -36,19 +43,9 @@ router.get('/employee', async (req, res) => {
     }
 })
 
-// NEW
-router.get('/employee/new', async (req, res) => {
-    const depts = await Department.find()
-    const channels = await Channel.find()
-    res.render('employee/new', { depts, channels })
-})
-
 // CREATE
 router.post('/employee', async (req, res) => {  
     try {
-        console.log(req.body.deptName)
-        // const dept = await Department.findById(req.body.deptId)
-        // const chnl = await Channel.findOne(req.body.chnlId)
         const employee = new Employee({
             name: req.body.name,
             mobileNumber: req.body.mobileNumber,
@@ -56,6 +53,7 @@ router.post('/employee', async (req, res) => {
             channel: req.body.chnlId
         })
         employee.save()
+        req.flash('success', `New employee - ${employee.name} - created!`)
         res.redirect('/employee')
     } catch (e) {
         console.log(e)
@@ -77,7 +75,8 @@ router.get('/employee/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/employee/:id', async (req, res) => {
     try {
-        const dept = await Employee.findByIdAndUpdate(req.params.id, req.body)
+        const employee = await Employee.findByIdAndUpdate(req.params.id, req.body)
+        req.flash('success', `Employee - ${employee.name} - updated!`)
         res.redirect('/employee')
     } catch (e) {
         console.log(e)
@@ -87,7 +86,8 @@ router.put('/employee/:id', async (req, res) => {
 // DELETE
 router.delete('/employee/:id', async (req, res) => {
     try {
-        await Employee.findByIdAndRemove(req.params.id)
+        const employee = await Employee.findByIdAndRemove(req.params.id)
+        req.flash('success', `Employee - ${employee.name} - deleted!`)
         res.redirect('/employee')
     } catch (e) {
         console.log(e)

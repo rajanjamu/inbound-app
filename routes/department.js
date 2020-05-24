@@ -20,7 +20,8 @@ router.get('/department', async (req, res) => {
 // CREATE
 router.post('/department', async (req, res) => {
     try {
-        Department.create(req.body)
+        const dept = await Department.create(req.body)
+        req.flash('success', `New department - ${dept.name} - created!`)
         res.redirect('/department')
     } catch (e) {
         console.log(e)
@@ -47,6 +48,7 @@ router.get('/department/:id/edit', async (req, res) => {
 router.put('/department/:id', async (req, res) => {
     try {
         const dept = await Department.findByIdAndUpdate(req.params.id, req.body)
+        req.flash('success', `Department - ${dept.name} - updated!`)
         res.redirect('/department')
     } catch (e) {
         console.log(e)
@@ -59,10 +61,12 @@ router.delete('/department/:id', async (req, res) => {
         const employee = await Employee.find({ department: req.params.id })
         const enquiry = await Enquiry.find({ department: req.params.id })
 
-        if (!employee && !enquiry) {
-            await Department.findByIdAndRemove(req.params.id)
+        if (!employee.length && !enquiry.length) {
+            const dept = await Department.findByIdAndRemove(req.params.id)
+            req.flash('success', `Department - ${dept.name} - deleted!`)
+        } else {
+            req.flash('error', 'Cannot delete. Department is being used!')
         }
-        console.log('Cannot be deleted. Other documents references this department.')
         
         res.redirect('/department')
     } catch (e) {
