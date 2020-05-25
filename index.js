@@ -7,6 +7,9 @@ const flash             = require('connect-flash')
 const session           = require('express-session')
 const app               = express()
 
+// ENV VARIABLES
+require('dotenv').config()
+
 // ROUTES
 const indexRoutes = require('./routes/index')
 const enqRoutes = require('./routes/enquiry')

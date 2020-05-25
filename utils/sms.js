@@ -1,14 +1,15 @@
 const axios = require('axios')
 const Employee = require('../models/employee')
 
-const apiKey = 'XLcNmbODoE6ljcfcy4GaSQ'
+const apiKey = process.env.API_KEY_SMS
+const senderId = process.env.SENDER_ID
 const channel = 2 //transactional
 const route = 1
-const senderId = 'JAMUSK'
 
 const sendSMS = async (enq) => {
     try {
         const url = await getUrl(enq)
+        console.log(url)
         
         if (!url) {
             return false
