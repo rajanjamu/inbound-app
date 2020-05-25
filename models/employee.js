@@ -6,11 +6,11 @@ const employeeSchema = new mongoose.Schema({
     name: String,
     mobileNumber1: {
         type: String,
-        validate: /^\d{10}$/
+        validate: /^[6-9]\d{9}$/
     },
     mobileNumber2: {
         type: String,
-        validate: /^$|^\d{10}$/,
+        validate: /^$|^[6-9]\d{9}$/,
     },
     department: {
         type: mongoose.Schema.Types.ObjectId,
