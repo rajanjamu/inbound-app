@@ -6,16 +6,21 @@
             <h2 class="mb-3">Employee - New</h2>
             <form action="/employee" method="POST">
                 <div class="form-group">
-                  <label for="prospectName">Employee Name</label>
+                  <label for="prospectName">Employee Name*</label>
                   <input type="text" class="form-control" name="name" id="prospectName" required>
                 </div>
                 <div class="form-group">
-                  <label for="mobileNumber">Mobile Number</label>
-                  <input type="tel" class="form-control" name="mobileNumber" id="mobileNumber" required>
-                  <small class="form-text text-muted">Format: 9887216666</small>
+                  <label for="mobileNumber1">Mobile Number 1*</label>
+                  <input type="tel" class="form-control" name="mobileNumber1" id="mobileNumber1" required>
+                  <small class="form-text text-muted">Format: 9887216666 - Exactly 10 digits</small>
                 </div>
                 <div class="form-group">
-                    <label for="chnlId">Channel</label>
+                    <label for="mobileNumber2">Mobile Number 2</label>
+                    <input type="tel" class="form-control" name="mobileNumber2" id="mobileNumber2">
+                    <small class="form-text text-muted">Format: 9887216666 - Exactly 10 digits</small>
+                  </div>
+                <div class="form-group">
+                    <label for="chnlId">Channel*</label>
                     <select class="custom-select" name="chnlId" id="chnlId" required>
                         <option value="" hidden selected>Select Channel</option>
                         <% channels.forEach(chnl => { %>
@@ -24,7 +29,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="deptId">Department</label>
+                    <label for="deptId">Department*</label>
                     <select class="custom-select" name="deptId" id="deptId" required>
                         <option value="" hidden selected>Select Department</option>
                         <% depts.forEach(dept => { %>
@@ -34,9 +39,9 @@
                 </div>
                 <div class="form-check mb-2">
                     <input type="checkbox" class="form-check-input" name="isSendSMS" id="isSendSMS">
-                    <label class="form-check-label" for="isSendSMS">Send SMS Notification</label>
+                    <label class="form-check-label" for="isSendSMS">Enable enquiry SMS notifications</label>
                 </div>
-                <button type="submit" class="btn btn-secondary">Submit</button>
+                <button type="submit" class="btn btn-secondary">Create</button>
                 <a href="/" class="btn btn-secondary">Cancel</a>
             </form>
         </div>

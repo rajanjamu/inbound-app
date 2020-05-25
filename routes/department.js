@@ -21,7 +21,7 @@ router.get('/department', async (req, res) => {
 router.post('/department', async (req, res) => {
     try {
         const dept = await Department.create(req.body)
-        req.flash('success', `New department - ${dept.name} - created!`)
+        req.flash('success', `New department created!`)
         res.redirect('/department')
     } catch (e) {
         console.log(e)
@@ -48,7 +48,7 @@ router.get('/department/:id/edit', async (req, res) => {
 router.put('/department/:id', async (req, res) => {
     try {
         const dept = await Department.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        req.flash('success', `Department - ${dept.name} - updated!`)
+        req.flash('success', `Department updated!`)
         res.redirect('/department')
     } catch (e) {
         console.log(e)
@@ -63,7 +63,7 @@ router.delete('/department/:id', async (req, res) => {
 
         if (!employee.length && !enquiry.length) {
             const dept = await Department.findByIdAndRemove(req.params.id)
-            req.flash('success', `Department - ${dept.name} - deleted!`)
+            req.flash('success', `Department deleted!`)
         } else {
             req.flash('error', 'Cannot delete. Department is being used!')
         }

@@ -67,7 +67,7 @@ router.post('/enquiry', async (req, res) => {
             sendSMS(enq)
         }
         
-        req.flash('success', `New enquiry - ${enq.prospectName} - created!`)
+        req.flash('success', `New enquiry created! ${ req.body.isSendSMS ? 'SMS sent.' : '' }`)
         res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)
@@ -94,16 +94,22 @@ router.get('/enquiry/:id/edit', async (req, res) => {
 // 6. UPDATE
 router.put('/enquiry/:id', async (req, res) => {
     try {
+        let smsStatus = false
         let enq = await Enquiry.findByIdAndUpdate(req.params.id, req.body, { new: true })
         enq = await enq.populate('channel', 'name')
                        .populate('department', 'name')
                        .execPopulate()
 
         if (req.body.isSendSMS) {
-            sendSMS(enq)
+            smsStatus = await sendSMS(enq)
         }
 
-        req.flash('success', `Employee - ${enq.prospectName} - updated!`)
+        if (smsStatus) {
+            req.flash('success', `Enquiry updated! SMS sent.`)
+        } else {
+            req.flash('error', `Enquiry updated! No number associated for SMS notification.`)
+        }
+        
         res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)
@@ -114,7 +120,7 @@ router.put('/enquiry/:id', async (req, res) => {
 router.delete('/enquiry/:id', async (req, res) => {
     try {
         const enq = await Enquiry.findByIdAndRemove(req.params.id)
-        req.flash('success', `Enquiry - ${enq.prospectName} - deleted!`)
+        req.flash('success', `Enquiry deleted!`)
         res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)

@@ -21,7 +21,7 @@ router.get('/channel', async (req, res) => {
 router.post('/channel', async (req, res) => {
     try {
         const channel = await Channel.create(req.body)
-        req.flash('success', `New channel - ${channel.name} - created!`)
+        req.flash('success', `New channel created!`)
         res.redirect('/channel')
     } catch (e) {
         console.log(e)
@@ -47,7 +47,7 @@ router.get('/channel/:id/edit', async (req, res) => {
 router.put('/channel/:id', async (req, res) => {
     try {
         const channel = await Channel.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        req.flash('success', `Channel - ${channel.name} - updated!`)
+        req.flash('success', `Channel updated!`)
         res.redirect('/channel')
     } catch (e) {
         console.log(e)
@@ -63,7 +63,7 @@ router.delete('/channel/:id', async (req, res) => {
 
         if (!employee.length && !enquiry.length) {
             const channel = await Channel.findByIdAndRemove(req.params.id)
-            req.flash('success', `Channel - ${channel.name} - deleted!`)
+            req.flash('success', `Channel deleted!`)
         } else {
             req.flash('error', 'Cannot delete. Channel is being used!')
         }

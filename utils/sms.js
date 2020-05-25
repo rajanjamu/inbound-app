@@ -9,7 +9,13 @@ const senderId = 'JAMUSK'
 const sendSMS = async (enq) => {
     try {
         const url = await getUrl(enq)
-        const res = await axios.get(url)
+        
+        if (!url) {
+            return false
+        }
+
+        await axios.get(url)
+        return true
     } catch (e) {
         console.log(e)
     }
@@ -17,6 +23,11 @@ const sendSMS = async (enq) => {
 
 async function getUrl(enq) {
     const numbers = await getNumbers(enq.channel._id, enq.department._id)
+
+    if (!numbers) {
+        return false
+    }
+
     return `https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=${apiKey}&senderid=${senderId}&channel=${channel}&DCS=0&flashsms=0&number=${numbers}&text=${smsText(enq)}&route=${route}`
 }
 
@@ -28,11 +39,10 @@ async function getNumbers(channel, department) {
     try {
         const numbersObj = await Employee
                             .find({ channel, department, isSendSMS: true })
-                            .select('mobileNumber -_id')
-    
-        if (numbersObj) {
-            return numbersObj.map(x => x.mobileNumber).join()
-        } 
+                            .select('mobileNumber1 mobileNumber2 -_id')
+                            .lean()
+        
+        return numbersObj.map(x => Object.values(x).join()).join()
     } catch (e) {
         console.log(e)
     }

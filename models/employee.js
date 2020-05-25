@@ -4,7 +4,14 @@ const Channel = require('./channel')
 
 const employeeSchema = new mongoose.Schema({
     name: String,
-    mobileNumber: String,
+    mobileNumber1: {
+        type: String,
+        validate: /^\d{10}$/
+    },
+    mobileNumber2: {
+        type: String,
+        validate: /^$|^\d{10}$/,
+    },
     department: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Department,

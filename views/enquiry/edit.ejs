@@ -6,16 +6,16 @@
             <h2 class="mb-3">Enquiry - Edit</h2>
             <form action="/enquiry/<%= enq._id %>?_method=PUT" method="POST">
                 <div class="form-group">
-                  <label for="prospectName">Customer Name</label>
+                  <label for="prospectName">Customer Name*</label>
                   <input type="text" class="form-control" name="prospectName" id="prospectName" value="<%= enq.prospectName %>" required>
                 </div>
                 <div class="form-group">
-                  <label for="mobileNumber">Mobile Number</label>
+                  <label for="mobileNumber">Mobile Number*</label>
                   <input type="tel" class="form-control" name="mobileNumber" id="mobileNumber" value="<%= enq.mobileNumber %>" required>
                   <small class="form-text text-muted">Format: 9887216666</small>
                 </div>
                 <div class="form-group">
-                    <label for="chnlName">Channel</label>
+                    <label for="chnlName">Channel*</label>
                     <select class="custom-select" name="chnlName" id="chnlName">
                         <% channels.forEach(chnl => { %>
                             <option <%= enq.channelName == chnl.name ? "selected" : "" %> ><%= chnl.name %></option>
@@ -23,7 +23,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="deptName">Department</label>
+                    <label for="deptName">Department*</label>
                     <select class="custom-select" name="deptName" id="deptName">
                         <% depts.forEach(dept => { %>
                             <option <%= enq.deptName == dept.name ? "selected" : "" %> ><%= dept.name %></option>
@@ -36,9 +36,9 @@
                 </div>
                 <div class="form-check mb-2">
                     <input type="checkbox" class="form-check-input" name="isSendSMS" id="isSendSMS">
-                    <label class="form-check-label" for="isSendSMS">Send SMS Notification</label>
+                    <label class="form-check-label" for="isSendSMS">Notify respective department (SMS)</label>
                 </div>
-                <button type="submit" class="btn btn-secondary">Edit</button>
+                <button type="submit" class="btn btn-secondary">Update</button>
                 <a href="/" class="btn btn-secondary">Cancel</a>
             </form>
         </div>

@@ -48,16 +48,19 @@ router.post('/employee', async (req, res) => {
     try {
         const employee = new Employee({
             name: req.body.name,
-            mobileNumber: req.body.mobileNumber,
+            mobileNumber1: req.body.mobileNumber1,
+            mobileNumber2: req.body.mobileNumber2,
             department: req.body.deptId,
             channel: req.body.chnlId,
             isSendSMS: req.body.isSendSMS ? true : false
         })
-        employee.save()
-        req.flash('success', `New employee - ${employee.name} - created!`)
+
+        await employee.save()
+        req.flash('success', `New employee created!`)
         res.redirect('/employee')
     } catch (e) {
-        console.log(e)
+        req.flash('error', e.message)
+        res.redirect('/employee/new')
     }
 })
 
@@ -71,7 +74,6 @@ router.get('/employee/:id/edit', async (req, res) => {
 
         const depts = await Department.find()
         const channels = await Channel.find()
-        console.log(employee)
         res.render('employee/edit', { employee, depts, channels })
     } catch (e) {
         console.log(e)
@@ -82,11 +84,12 @@ router.get('/employee/:id/edit', async (req, res) => {
 router.put('/employee/:id', async (req, res) => {
     try {
         req.body.isSendSMS = (req.body.isSendSMS ? true : false)
-        const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        req.flash('success', `Employee - ${employee.name} - updated!`)
+        const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        req.flash('success', `Employee updated`)
         res.redirect('/employee')
     } catch (e) {
-        console.log(e)
+        req.flash('error', e.message)
+        res.redirect('back')
     }
 });
 
@@ -94,7 +97,7 @@ router.put('/employee/:id', async (req, res) => {
 router.delete('/employee/:id', async (req, res) => {
     try {
         const employee = await Employee.findByIdAndRemove(req.params.id)
-        req.flash('success', `Employee - ${employee.name} - deleted!`)
+        req.flash('success', `Employee deleted!`)
         res.redirect('/employee')
     } catch (e) {
         console.log(e)

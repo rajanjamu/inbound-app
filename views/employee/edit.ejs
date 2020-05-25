@@ -6,16 +6,21 @@
             <h2 class="mb-3">Employee - Edit</h2>
             <form action="/employee/<%= employee._id %>?_method=PUT" method="POST">
                 <div class="form-group">
-                  <label for="prospectName">Employee Name</label>
+                  <label for="prospectName">Employee Name*</label>
                   <input type="text" class="form-control" name="name" id="employeeName" value="<%= employee.name %>" required>
                 </div>
                 <div class="form-group">
-                  <label for="mobileNumber">Mobile Number</label>
-                  <input type="tel" class="form-control" name="mobileNumber" id="mobileNumber" value="<%= employee.mobileNumber %>" required>
-                  <small class="form-text text-muted">Format: 9887216666</small>
+                  <label for="mobileNumber1">Mobile Number 1*</label>
+                  <input type="tel" class="form-control" name="mobileNumber1" id="mobileNumber1" value="<%= employee.mobileNumber1 %>" required>
+                  <small class="form-text text-muted">Format: 9887216666 - Exactly 10 digits</small>
                 </div>
                 <div class="form-group">
-                    <label for="chnlName">Channel</label>
+                    <label for="mobileNumber2">Mobile Number 2</label>
+                    <input type="tel" class="form-control" name="mobileNumber2" id="mobileNumber2" value="<%= employee.mobileNumber2 %>">
+                    <small class="form-text text-muted">Format: 9887216666 - Exactly 10 digits</small>
+                  </div>
+                <div class="form-group">
+                    <label for="chnlName">Channel*</label>
                     <select class="custom-select" name="chnlName" id="chnlName">
                         <% channels.forEach(chnl => { %>
                             <option <%= employee.channel.name == chnl.name ? "selected" : "" %> ><%= chnl.name %></option>
@@ -23,7 +28,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="deptName">Department</label>
+                    <label for="deptName">Department*</label>
                     <select class="custom-select" name="deptName" id="deptName">
                         <% depts.forEach(dept => { %>
                             <option <%= employee.department.name == dept.name ? "selected" : "" %> ><%= dept.name %></option>
@@ -32,9 +37,9 @@
                 </div>
                 <div class="form-check mb-2">
                     <input type="checkbox" class="form-check-input" name="isSendSMS" <%= employee.isSendSMS ? 'checked': '' %> id="isSendSMS">
-                    <label class="form-check-label" for="isSendSMS">Send SMS Notification</label>
+                    <label class="form-check-label" for="isSendSMS">Enable enquiry SMS notifications</label>
                 </div>
-                <button type="submit" class="btn btn-secondary">Submit</button>
+                <button type="submit" class="btn btn-secondary">Update</button>
                 <a href="/employee" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
