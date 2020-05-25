@@ -102,14 +102,16 @@ router.put('/enquiry/:id', async (req, res) => {
 
         if (req.body.isSendSMS) {
             smsStatus = await sendSMS(enq)
+
+            if (smsStatus) {
+                req.flash('success', `Enquiry updated! SMS sent.`)
+            } else {
+                req.flash('error', `Enquiry updated! No number associated for SMS notification.`)
+            }
+        } else {
+            req.flash('success', `Enquiry updated!`)
         }
 
-        if (smsStatus) {
-            req.flash('success', `Enquiry updated! SMS sent.`)
-        } else {
-            req.flash('error', `Enquiry updated! No number associated for SMS notification.`)
-        }
-        
         res.redirect('/enquiry/1')
     } catch (e) {
         console.log(e)
